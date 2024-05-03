@@ -1,0 +1,10 @@
+---
+- name: Install, configure and start Prometheus
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/prometheus/tasks/prepare.yml
+    - include_tasks: ../roles/prometheus/tasks/setup.yml
+    - include_tasks: ../roles/prometheus/tasks/start.yml
+  handlers:
+    - import_tasks: ../roles/prometheus/handlers/main.yml

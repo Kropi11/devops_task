@@ -1,0 +1,12 @@
+---
+- name: Create Docker network
+  docker_network:
+    name: "{{ nginx_network }}"
+
+- name: Create Docker network
+  docker_network:
+    name: "{{ logging_network }}"
+
+- name: Create a volume for html files
+  docker_volume:
+    name: "{{  nginx_volume_name }}"

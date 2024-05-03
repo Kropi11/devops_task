@@ -1,0 +1,8 @@
+---
+# handlers file for kafka
+- name: Restart Kafka container
+  become: true
+  docker_container:
+    name: "{{ kafka_name }}"
+    state: started
+    restart: true

@@ -1,0 +1,27 @@
+---
+- name: Wait for Grafana to start
+  wait_for_connection:
+    delay: 10
+    timeout: 60
+
+- name: Add Prometheus datasource to Grafana
+  community.grafana.grafana_datasource:
+    name: Prometheus
+    ds_type: prometheus
+    ds_url: http://prometheus:9090
+    org_id: "1"
+    access: proxy
+    is_default: true
+    grafana_url: http://127.0.0.1:{{ grafana_port }}
+    grafana_user: "{{ grafana_env_admin_user }}"
+    grafana_password: "{{ grafana_env_admin_password }}"
+
+- name: Import dashboard to Grafana
+  community.grafana.grafana_dashboard:
+    grafana_url: http://127.0.0.1:{{ grafana_port }}
+    grafana_user: "{{ grafana_env_admin_user }}"
+    overwrite: true
+    path: ../roles/grafana/files/node-exporter-full.json
+    grafana_password: "{{ grafana_env_admin_password }}"
+  notify: Restart Grafana container
+

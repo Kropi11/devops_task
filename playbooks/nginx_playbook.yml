@@ -1,0 +1,12 @@
+---
+- name: Install, configure and start Nginx
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/nginx/tasks/prepare.yml
+    - include_tasks: ../roles/nginx/tasks/setup.yml
+    - include_tasks: ../roles/nginx/tasks/start.yml
+    - include_tasks: ../roles/nginx/tasks/certificates.yml
+    - include_tasks: ../roles/nginx/tasks/config.yml
+  handlers:
+    - import_tasks: ../roles/nginx/handlers/main.yml

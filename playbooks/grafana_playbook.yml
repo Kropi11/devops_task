@@ -1,0 +1,11 @@
+---
+- name: Install, configure and start Grafana container
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/grafana/tasks/prepare.yml
+    - include_tasks: ../roles/grafana/tasks/setup.yml
+    - include_tasks: ../roles/grafana/tasks/start.yml
+    - include_tasks: ../roles/grafana/tasks/dashboard.yml
+  handlers:
+    - import_tasks: ../roles/grafana/handlers/main.yml

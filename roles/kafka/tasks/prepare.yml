@@ -1,0 +1,8 @@
+---
+- name: Create kafka network
+  docker_network:
+    name: "{{ kafka_network }}"
+
+- name: Create a network logging
+  docker_network:
+    name: "{{ logging_network }}"

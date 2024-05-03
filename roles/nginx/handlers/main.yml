@@ -1,0 +1,15 @@
+---
+# handlers file for nginx
+- name: Restart nginx file server
+  become: true
+  docker_container:
+    name: "{{ nginx_file_server_name }}"
+    state: started
+    restart: true
+    
+- name: Restart nginx reverse proxy
+  become: true
+  docker_container:
+    name: "{{ nginx_reverse_proxy_name }}"
+    state: started
+    restart: true

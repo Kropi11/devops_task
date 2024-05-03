@@ -1,0 +1,8 @@
+---
+# handlers file for node_exporter
+- name: Restart Node-Exporter container
+  become: true
+  docker_container:
+    name: "{{ node_exporter_container_name }}"
+    state: started
+    restart: true

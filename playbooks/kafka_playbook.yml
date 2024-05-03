@@ -1,0 +1,10 @@
+---
+- name: Install, configure and start Kafka
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/kafka/tasks/prepare.yml
+    - include_tasks: ../roles/kafka/tasks/setup.yml
+    - include_tasks: ../roles/kafka/tasks/start.yml
+  handlers:
+    - import_tasks: ../roles/kafka/handlers/main.yml

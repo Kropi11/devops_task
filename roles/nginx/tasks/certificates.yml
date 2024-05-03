@@ -1,0 +1,20 @@
+---
+- name: Create directory for SSL certificates
+  file:
+    path: "{{ certificates_directory }}"
+    state: directory
+    mode: "0755"
+
+- openssl_privatekey:
+    path: "{{ certificates_directory }}/private_key.key"
+    size: 2048 
+
+- openssl_csr:
+    path: "{{ certificates_directory }}/certificate.csr"
+    privatekey_path: "{{ certificates_directory }}/private_key.key"
+
+- openssl_certificate:
+    provider: selfsigned
+    path: "{{ certificates_directory }}/certificate.crt"
+    privatekey_path: "{{ certificates_directory }}/private_key.key"
+    csr_path: "{{ certificates_directory }}/certificate.csr"

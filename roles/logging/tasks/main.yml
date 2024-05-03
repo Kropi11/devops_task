@@ -1,0 +1,4 @@
+---
+- include_tasks: prepare.yml
+- include_tasks: start.yml
+---

@@ -1,0 +1,7 @@
+---
+- name: Deploy Logging Service
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/logging/tasks/prepare.yml
+    - include_tasks: ../roles/logging/tasks/start.yml

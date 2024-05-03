@@ -1,0 +1,8 @@
+---
+- name: Create a network monitoring
+  docker_network:
+    name: "{{ monitoring_network }}"
+
+- name: Create a network logging
+  docker_network:
+    name: "{{ logging_network }}"

@@ -1,0 +1,5 @@
+---
+- name: Start Kafka container
+  docker_container:
+    name: "{{ kafka_name }}"
+    state: started

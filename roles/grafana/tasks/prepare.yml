@@ -1,0 +1,19 @@
+---
+- name: Create a network monitoring
+  docker_network:
+    name: "{{ monitoring_network }}"
+
+- name: Create a network logging
+  docker_network:
+    name: "{{ logging_network }}"
+    driver: bridge
+    driver_options:
+      bridge.host_fwd: true
+
+- name: Build Docker image from Dockerfile
+  docker_image:
+    name: "{{ grafana_image }}"
+    build:
+      path: ../roles/grafana/files/grafana_image
+    tag: latest
+    source: build

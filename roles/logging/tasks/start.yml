@@ -1,0 +1,6 @@
+---
+- name: Start the service
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: /bin/bash -c "svscan /etc/service/ &"
+  register: result

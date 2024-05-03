@@ -1,0 +1,37 @@
+---
+- name: Set initial value for zookeepers string
+  set_fact:
+    zookeepers: ""
+
+- name: Loop through zookeeper nodes
+  set_fact:
+    zookeepers: "{{ zookeepers + zookeeper_name + item | string + ':' + (zookeeper_port + item - 1) | string }},"
+  loop: "{{ range(1, kafka_replication_factor + 1) | list }}"
+
+- name: Remove trailing comma
+  set_fact:
+    zookeepers: "{{ zookeepers[:-1] }}"
+
+- name: Create Kafka container
+  docker_container:
+    name: "{{ kafka_name }}"
+    image: "{{ kafka_image }}"
+    state: present
+    restart_policy: "{{ kafka_restart_policy }}"
+    env:
+      KAFKA_ADVERTISED_LISTENERS: "{{ kafka_advertised_listeners }}"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "{{ kafka_listener_security_protocol_map }}"
+      KAFKA_LISTENERS: "{{ kafka_listeners }}"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "{{ kafka_inter_broker_listener_name }}"
+      KAFKA_REPLICATION_FACTOR: "{{ kafka_replication_factor | string }}"
+      KAFKA_ZOOKEEPER_CONNECT: "{{ zookeepers }}"
+      KAFKA_CREATE_TOPICS: "{{ kafka_create_topics }}"      
+    ports:
+      - "{{ kafka_port }}:{{ kafka_port }}"
+    expose:
+      - "{{ kafka_exposed_port }}"
+    networks:
+      - name: "{{ kafka_network }}"
+      - name: "{{ logging_network }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

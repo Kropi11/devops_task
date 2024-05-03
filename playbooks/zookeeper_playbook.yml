@@ -1,0 +1,10 @@
+---
+- name: Install, configure and start ZooKeeper
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/zookeeper/tasks/prepare.yml
+    - include_tasks: ../roles/zookeeper/tasks/setup.yml
+    - include_tasks: ../roles/zookeeper/tasks/start.yml
+  handlers:
+    - import_tasks: ../roles/zookeeper/handlers/main.yml

@@ -1,0 +1,16 @@
+--- 
+- name: Copy Nginx configuration file to Docker container (file server)
+  community.docker.docker_container_copy_into:
+    container: "{{ nginx_file_server_name }}"
+    path: ../roles/nginx/files/nginx_file_server.conf
+    container_path: /etc/nginx/conf.d/default.conf
+  notify:
+    - Restart nginx file server
+
+- name: Copy Nginx configuration file to Docker container (reverse proxy)
+  community.docker.docker_container_copy_into:
+    container: "{{ nginx_reverse_proxy_name }}"
+    path: ../roles/nginx/files/nginx_reverse_proxy.conf
+    container_path: /etc/nginx/conf.d/default.conf
+  notify:
+    - Restart nginx reverse proxy

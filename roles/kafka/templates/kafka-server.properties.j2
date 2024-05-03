@@ -1,0 +1,10 @@
+# Kafka Server Properties
+broker.id={{ ansible_hostname | regex_replace('^kafka-', '') }}
+listeners=PLAINTEXT://:9092
+advertised.listeners=PLAINTEXT://{{ ansible_default_ipv4.address }}:9092
+log.dirs=/var/lib/kafka/data
+num.partitions=3
+offsets.topic.replication.factor=3
+transaction.state.log.replication.factor=3
+transaction.state.log.min.isr=2
+log.retention.hours=168

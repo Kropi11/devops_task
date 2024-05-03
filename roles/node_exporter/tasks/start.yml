@@ -1,0 +1,5 @@
+---
+- name: Start Node-Exporter container
+  docker_container:
+    name: "{{ node_exporter_name }}"
+    state: started

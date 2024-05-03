@@ -1,0 +1,9 @@
+---
+- name: Prepare hosts
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/host_preparation/tasks/system_packages.yml
+    - include_tasks: ../roles/host_preparation/tasks/docker.yml
+  handlers:
+    - import_tasks: ../roles/host_preparation/handlers/main.yml

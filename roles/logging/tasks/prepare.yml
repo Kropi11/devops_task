@@ -1,0 +1,54 @@
+---
+- name: Create directory for the script
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: "mkdir -p /usr/local/bin/"
+  register: result
+
+- name: Write host IP to the script
+  template:
+    src: ../roles/logging/templates/logging_script.py.j2
+    dest: ../roles/logging/files/logging_script.py
+
+- name: Copy a script into the container
+  community.docker.docker_container_copy_into:
+    container: "{{ grafana_name }}"
+    path: ../roles/logging/files/logging_script.py
+    container_path: /usr/local/bin/logging_script.py
+
+- name: Create directory for the service file
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: "mkdir -p /etc/service/logging_script/"
+    chdir: /root
+
+- name: Create directory for logs
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: "mkdir -p /var/log/logging_script/"
+    chdir: /root
+  
+- name: Create file for log
+  file:
+    path: /var/log/logging_script/metrics.json
+    state: touch
+
+- name: Copy a run file into the container
+  community.docker.docker_container_copy_into:
+    container: "{{ grafana_name }}"
+    path: ../roles/logging/files/run
+    container_path: /etc/service/logging_script/run
+
+- name: Change the permissions of the script
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: /bin/bash -c "chmod +x /usr/local/bin/logging_script.py"
+    chdir: /root
+  register: result
+
+- name: Change the permissions of the script
+  community.docker.docker_container_exec:
+    container: "{{ grafana_name }}"
+    command: /bin/bash -c "chmod +x /etc/service/logging_script/run"
+    chdir: /root
+  register: result

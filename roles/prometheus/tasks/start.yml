@@ -1,0 +1,5 @@
+---
+- name: Start Prometheus container
+  docker_container:
+    name: "{{ prometheus_name }}"
+    state: started

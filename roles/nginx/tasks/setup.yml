@@ -1,0 +1,33 @@
+---
+- name: Run first NGINX instance as file server
+  docker_container:
+    name: "{{ nginx_file_server_name }}"
+    image: "{{ nginx_image }}"
+    state: present
+    restart_policy: "{{ nginx_restart_policy }}"
+    env:
+      TZ: "{{ nginx_env_timezone }}"
+    ports:
+      - "80:80"
+    volumes:
+      - "{{ nginx_volume_name }}"
+      - /var/log/nginx/:/var/log/nginx/
+    networks:
+      - name: "{{ nginx_network }}"
+      - name: "{{ logging_network }}"
+
+- name: Run second NGINX instance as reverse proxy
+  docker_container:
+    name: "{{ nginx_reverse_proxy_name }}"
+    image: "{{ nginx_image }}"
+    state: present
+    restart_policy: "{{ nginx_restart_policy }}"
+    env:
+      TZ: "{{ nginx_env_timezone }}"
+    ports:
+      - "443:443"
+    volumes: 
+      - "{{ certificates_directory }}:{{ certificates_directory }}:ro"
+    networks:
+      - name: "{{ nginx_network }}"
+      - name: "{{ logging_network }}"

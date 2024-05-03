@@ -1,0 +1,8 @@
+---
+# handlers file for grafana
+- name: Restart Grafana container
+  become: true
+  docker_container:
+    name: "{{ grafana_name }}"
+    state: started
+    restart: true

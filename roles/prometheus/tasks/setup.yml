@@ -1,0 +1,21 @@
+---
+- name: Create Prometheus container
+  docker_container:
+    name: "{{ prometheus_name }}"
+    image: "{{ prometheus_image }}"
+    state: present
+    restart_policy: "{{ prometheus_restart_policy }}"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    env:
+      TZ: "{{ prometheus_env_timezone }}"
+    volumes:
+      - "{{ prometheus_volumes_config }}:/etc/prometheus"
+    ports:
+      - "{{ prometheus_port }}:9090"
+    networks:
+      - name: "{{ monitoring_network }}"
+      - name: "{{ logging_network }}"

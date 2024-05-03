@@ -1,0 +1,8 @@
+---
+# handlers file for zookeeper
+- name: Restart Zookeeper container
+  become: true
+  docker_container:
+    name: "{{ zookeeper_container_name }}"
+    state: started
+    restart: true

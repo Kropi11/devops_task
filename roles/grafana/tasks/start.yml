@@ -1,0 +1,5 @@
+---
+- name: Start Grafana container
+  docker_container:
+    name: "{{ grafana_name }}"
+    state: started

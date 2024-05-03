@@ -1,0 +1,10 @@
+---
+- name: Install, configure and start Node Exporter
+  hosts: hosts
+  become: true
+  tasks:
+    - include_tasks: ../roles/node_exporter/tasks/prepare.yml
+    - include_tasks: ../roles/node_exporter/tasks/setup.yml
+    - include_tasks: ../roles/node_exporter/tasks/start.yml
+  handlers:
+    - import_tasks: ../roles/node_exporter/handlers/main.yml

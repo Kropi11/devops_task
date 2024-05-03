@@ -1,0 +1,7 @@
+---
+# handlers file for host_preparation
+- name: Restart Docker Service
+  service:
+    name: docker
+    state: restarted
+    enabled: true

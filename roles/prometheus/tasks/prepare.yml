@@ -1,0 +1,19 @@
+---
+- name: Create a network monitoring
+  docker_network:
+    name: "{{ monitoring_network }}"
+
+- name: Create a network monitoring
+  docker_network:
+    name: "{{ logging_network }}"
+
+- name: Create prometheus config folder
+  file:
+    path: "{{ prometheus_volumes_config }}"
+    state: directory
+    mode: "0755"
+
+- name: Add prometheus configuration
+  ansible.builtin.copy:
+    src: ../roles/prometheus/files/prometheus.yml
+    dest: "{{ prometheus_volumes_config }}/prometheus.yml"

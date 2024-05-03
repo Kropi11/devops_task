@@ -1,0 +1,10 @@
+---
+- name: Start nginx_file_server container
+  docker_container:
+    name: "{{ nginx_file_server_name }}"
+    state: started
+
+- name: Run second NGINX instance as reverse proxy
+  docker_container:
+    name: "{{ nginx_reverse_proxy_name }}"
+    state: started

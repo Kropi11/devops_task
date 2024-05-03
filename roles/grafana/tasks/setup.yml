@@ -1,0 +1,19 @@
+---
+- name: Create Grafana container
+  docker_container:
+    name: "{{ grafana_name }}"
+    image: "{{ grafana_image }}"
+    state: present
+    restart_policy: "{{ grafana_restart_policy }}"
+    env:
+      GF_SECURITY_ADMIN_USER: "{{ grafana_env_admin_user }}"
+      GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_env_admin_password }}"
+      GF_AUTH_ANONYMOUS_ENABLED: "{{ grafana_env_anonymous_enabled }}"
+    ports:
+      - "{{ grafana_port }}:3000"
+    networks:
+      - name: "{{ monitoring_network }}"
+      - name: "{{ logging_network }}"
+    volumes:
+      - "/var/log/nginx:/var/log/nginx"
+      - "/var/log/logging_script:/var/log/logging_script"
